@@ -57,6 +57,24 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     func getPlaceholderTemplateForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTemplate?) -> Void) {
         // This method will be called once per supported complication, and the results will be cached
+        
+        let textProvider = CLKSimpleTextProvider(text: "Should I ride my bike?", shortText: "Bike?")
+        
+        
+        switch complication.family {
+        case .ModularSmall:
+            let template = CLKComplicationTemplateModularSmallSimpleText()
+            template.textProvider = textProvider
+            handler(template)
+        case .ModularLarge:
+            let template = CLKComplicationTemplateModularLargeStandardBody()
+            template.headerTextProvider = textProvider
+            template.body1TextProvider = textProvider
+            handler(template)
+        default:
+            break
+        }
+        
         handler(nil)
     }
     
