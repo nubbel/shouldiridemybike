@@ -9,9 +9,67 @@
 import UIKit
 import CoreLocation
 
+typealias Action = ViewController -> () -> Void
+
 enum State {
-    case Init
+    case Initial
+    case Ready
+    case WaitingForAuthorization
+    case Authorized
+    case Unauthorized
     case LocationUpdated(Location)
+    case DecisionUpdated(Bool)
+    
+    
+    var status: String {
+        switch self {
+        case .Ready:
+            return "Where are you?"
+        case .WaitingForAuthorization:
+            return "̇I'll wait for you."
+        case .Authorized:
+            return "Trying to find you…"
+        case .LocationUpdated:
+            return "Checking…"
+        case .DecisionUpdated(true):
+            return "Yes"
+        case .DecisionUpdated(false):
+            return "No"
+        default:
+            return ""
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .Ready:
+            return "I need to know where you are in order to figure out the current weather conditions at your location."
+        case .DecisionUpdated(true):
+            return "Weather is nice."
+        case .DecisionUpdated(false):
+            return "Weather sucks!"
+        default:
+            return ""
+        }
+    }
+        
+    var prompt: String? {
+        switch self {
+        case .Ready:
+            return "Here I am!"
+        default:
+            return nil
+        }
+    }
+    
+    var action: Action? {
+        switch self {
+        case .Ready:
+            return ViewController.requestPermissionFromUser
+        default:
+            return nil
+        }
+    }
 }
 
 class ViewController: UIViewController {
@@ -19,6 +77,14 @@ class ViewController: UIViewController {
     var session: NSURLSession!
     var locationManager: CLLocationManager!
     var forecastManager: ForecastManager!
+    
+    private var state = State.Initial {
+        didSet(oldState) {
+            handleTransitionFromState(oldState)
+            
+            dispatch_async(dispatch_get_main_queue(), update)
+        }
+    }
     
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
@@ -31,8 +97,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         setup()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        update(.Init)
+        state = .Ready
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,33 +118,60 @@ class ViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         
         forecastManager = ForecastManager(apiKey: FORECAST_IO_API_KEY, session: session)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
+            self?.state = .Ready
+        }
     }
     
-    func update(state: State) {
+    // Must be called on main queue
+    func update() {
+        statusLabel.text = state.status
+        descriptionLabel.text = state.description
+        
+        if let prompt = state.prompt {
+            actionButton.setTitle(prompt, forState: .Normal)
+            actionButton.hidden = false
+            action = state.action?(self)
+        }
+        else {
+            actionButton.hidden = true
+        }
+    }
+    
+    func handleTransitionFromState(oldState: State) {
+        print("\(oldState) -> \(state)")
+        
         switch state {
-        case .Init:
-            statusLabel.text = "Where are you?"
-            descriptionLabel.text = "I need to know where you are in order to figure out the current weather conditions at your location."
-            actionButton.setTitle("Here I am!", forState: .Normal)
-            action = requestLocation
+        case .Ready:
+            if let newState = stateForAuthorizationStatus(CLLocationManager.authorizationStatus()) {
+                state = newState
+            }
+            
+        case .Authorized:
+            locationManager.requestLocation()
             
         case .LocationUpdated(let location):
-            statusLabel.text = "Checking…"
-            descriptionLabel.text = "Let me see."
-            actionButton.hidden = true
-            action = nil
             forecastManager.fetch(location, completionHandler: { json in
-                print("forecast: \(json)")
+//                print("forecast: \(json)")
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.statusLabel.text = "No"
-                    self.descriptionLabel.text = "The weather sucks!"
-                    self.actionButton.hidden = true
-                }
+                self.state = .DecisionUpdated(false)
             })
-            
+
+        default:
+            break
         }
-        
+    }
+    
+    func stateForAuthorizationStatus(status: CLAuthorizationStatus) -> State? {
+        switch status {
+        case .AuthorizedWhenInUse, .AuthorizedAlways:
+            return .Authorized
+        case .Denied, .Restricted:
+            return .Unauthorized
+        default:
+            return nil
+        }
     }
 }
 
@@ -87,9 +184,8 @@ extension ViewController {
         }
     }
     
-    func requestLocation() {
+    func requestPermissionFromUser() {
         locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
     }
     
 }
@@ -97,15 +193,17 @@ extension ViewController {
 // MARK: - CLLocationManagerDelegate
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        
+        if let newState = stateForAuthorizationStatus(status) {
+            state = newState
+        }
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let currentLocation = locations.last {
-            update(.LocationUpdated(Location(
+            state = .LocationUpdated(Location(
                 latitude: currentLocation.coordinate.latitude,
                 longitude: currentLocation.coordinate.longitude
-            )))
+            ))
         }
     }
     
