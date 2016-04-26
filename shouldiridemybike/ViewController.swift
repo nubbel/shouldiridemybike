@@ -9,7 +9,11 @@
 import UIKit
 import CoreLocation
 
-typealias Action = ViewController -> () -> Void
+
+enum Action {
+    case RequestPermissionFromUser
+    case Retry
+}
 
 enum State {
     case Initial
@@ -53,6 +57,8 @@ enum State {
             return "Weather is nice."
         case .DecisionUpdated(false):
             return "Weather sucks!"
+        case .Error:
+            return "I don't know, just look out of your window."
         default:
             return ""
         }
@@ -62,6 +68,8 @@ enum State {
         switch self {
         case .Ready:
             return "Here I am!"
+        case .Error:
+            return "Try again!"
         default:
             return nil
         }
@@ -70,7 +78,9 @@ enum State {
     var action: Action? {
         switch self {
         case .Ready:
-            return ViewController.requestPermissionFromUser
+            return .RequestPermissionFromUser
+        case .Error:
+            return .Retry
         default:
             return nil
         }
@@ -94,8 +104,6 @@ class ViewController: UIViewController {
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var actionButton: UIButton!
-    
-    var action: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,7 +145,6 @@ class ViewController: UIViewController {
         if let prompt = state.prompt {
             actionButton.setTitle(prompt, forState: .Normal)
             actionButton.hidden = false
-            action = state.action?(self)
         }
         else {
             actionButton.hidden = true
@@ -155,7 +162,7 @@ class ViewController: UIViewController {
                 state = newState
             }
             
-        case (_, .Authorized):
+        case (.Ready, .Authorized):
             locationManager.requestLocation()
             
         case (_, .LocationUpdated(let location)):
@@ -191,15 +198,15 @@ class ViewController: UIViewController {
 // MARK: - Actions
 extension ViewController {
     @IBAction func callAction(sender: AnyObject) {
-        if let action = action {
-            action()
+        if let action = state.action {
+            switch action {
+            case .RequestPermissionFromUser:
+                locationManager.requestWhenInUseAuthorization()
+            case .Retry:
+                state = .Ready
+            }
         }
     }
-    
-    func requestPermissionFromUser() {
-        locationManager.requestWhenInUseAuthorization()
-    }
-    
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -220,6 +227,6 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        
+        state = .Error
     }
 }
