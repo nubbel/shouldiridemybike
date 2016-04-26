@@ -19,10 +19,13 @@ enum State {
     case Unauthorized
     case LocationUpdated(Location)
     case DecisionUpdated(Bool)
+    case Error
     
     
     var status: String {
         switch self {
+        case .Initial:
+            return "Waiting…"
         case .Ready:
             return "Where are you?"
         case .WaitingForAuthorization:
@@ -35,6 +38,8 @@ enum State {
             return "Yes"
         case .DecisionUpdated(false):
             return "No"
+        case Error:
+            return "Sorry"
         default:
             return ""
         }
@@ -142,20 +147,27 @@ class ViewController: UIViewController {
     func handleTransitionFromState(oldState: State) {
         print("\(oldState) -> \(state)")
         
-        switch state {
-        case .Ready:
+        let transition = (oldState, state)
+        
+        switch transition {
+        case (_, .Ready):
             if let newState = stateForAuthorizationStatus(CLLocationManager.authorizationStatus()) {
                 state = newState
             }
             
-        case .Authorized:
+        case (_, .Authorized):
             locationManager.requestLocation()
             
-        case .LocationUpdated(let location):
-            forecastManager.fetch(location, completionHandler: { json in
-//                print("forecast: \(json)")
+        case (_, .LocationUpdated(let location)):
+            forecastManager.fetch(location, completionHandler: { (forecast, error) in
+                if let error = error {
+                    debugPrint("Failed to fetch forecast: \(error)")
+                    
+                    self.state = .Error
+                    return
+                }
                 
-                self.state = .DecisionUpdated(false)
+                self.state = .DecisionUpdated(forecast.currently.temperature > 10)
             })
 
         default:

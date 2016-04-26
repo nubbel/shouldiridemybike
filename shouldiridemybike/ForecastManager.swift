@@ -8,9 +8,10 @@
 
 import Foundation
 
-struct Location {
-    let latitude: Double
-    let longitude: Double
+
+enum ForecastError: ErrorType {
+    case RequestError
+    case DecodingFailed
 }
 
 class ForecastManager {
@@ -22,28 +23,30 @@ class ForecastManager {
         self.session = session
     }
     
-    func fetch(location: Location, completionHandler: (AnyObject) -> Void) {
-        let url = NSURL(string: "https://api.forecast.io/forecast/\(apiKey)/\(location.latitude),\(location.longitude)")!
+    func fetch(location: Location, completionHandler: (Forecast!, ErrorType?) -> Void) {
+        let url = NSURL(string: "https://api.forecast.io/forecast/\(apiKey)/\(location.latitude),\(location.longitude)?units=si&exclude=daily,alerts,flags")!
         let task = session.dataTaskWithURL(url) { (data, response, error) in
-            guard error == nil else {
-                return
-            }
-            guard let httpResponse = response as? NSHTTPURLResponse else {
-                return
-            }
-            guard httpResponse.statusCode == 200 else {
-                return
-            }
-            guard let data = data else {
-                return
-            }
-            
             do {
-                let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
-                completionHandler(json)
+                if let error = error {
+                    throw error
+                }
+                
+                guard let jsonData = data,
+                    let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200 else {
+                        throw ForecastError.RequestError
+                }
+                
+                let jsonObject = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
+                
+                guard let json = jsonObject as? JSON else {
+                    throw ForecastError.DecodingFailed
+                }
+                
+                let forecast = try Forecast(json: json)
+                completionHandler(forecast, nil)
             }
-            catch {
-                return
+            catch let error {
+                completionHandler(nil, error)
             }
         }
         task.resume()
