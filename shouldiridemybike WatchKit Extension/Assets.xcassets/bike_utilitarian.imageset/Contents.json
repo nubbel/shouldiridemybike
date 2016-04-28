@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "watch",
-      "filename" : "bike_circular-1.png",
+      "filename" : "bike_utilitarian_small-1.png",
       "screen-width" : "<=145",
       "scale" : "2x"
     },
     {
       "idiom" : "watch",
-      "filename" : "bike_circular.png",
+      "filename" : "bike_utilitarian_small.png",
       "screen-width" : ">145",
       "scale" : "2x"
     }

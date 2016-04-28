@@ -117,11 +117,23 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             template.headerTextProvider = textProvider
             template.body1TextProvider = textProvider
             handler(template)
-        default:
-            break
+        case .UtilitarianSmall:
+            let template = CLKComplicationTemplateUtilitarianSmallFlat()
+            template.textProvider = textProvider
+            template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_utilitarian")!)
+            handler(template)
+        case .UtilitarianLarge:
+            let template = CLKComplicationTemplateUtilitarianLargeFlat()
+            template.textProvider = textProvider
+            template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_utilitarian")!)
+            handler(template)
+        case .CircularSmall:
+            let template = CLKComplicationTemplateCircularSmallStackImage()
+            template.line1ImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_circular_small_stacked")!)
+            template.line2TextProvider = textProvider
+            handler(template)
         }
         
-        handler(nil)
     }
     
 }
@@ -169,7 +181,6 @@ private extension ComplicationController {
             let template = CLKComplicationTemplateModularSmallStackImage()
             template.line1ImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_modular_small_stacked")!)
             template.line2TextProvider = headerTextProvider
-            
             return template
         case .ModularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
@@ -177,9 +188,21 @@ private extension ComplicationController {
             template.headerTextProvider = headerTextProvider
             template.body1TextProvider = bodyTextProvider
             return template
-        default:
-            
-            return nil
+        case .UtilitarianSmall:
+            let template = CLKComplicationTemplateUtilitarianSmallFlat()
+            template.textProvider = headerTextProvider
+            template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_utilitarian")!)
+            return template
+        case .UtilitarianLarge:
+            let template = CLKComplicationTemplateUtilitarianLargeFlat()
+            template.textProvider = headerTextProvider
+            template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_utilitarian")!)
+            return template
+        case .CircularSmall:
+            let template = CLKComplicationTemplateCircularSmallStackImage()
+            template.line1ImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_circular_small_stacked")!)
+            template.line2TextProvider = headerTextProvider
+            return template
         }
     }
     
