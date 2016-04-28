@@ -22,8 +22,6 @@
 		5D7F6BF51CCD37C4005B1A6D /* shouldiridemybike WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5D7F6BF41CCD37C4005B1A6D /* shouldiridemybike WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5D7F6BFC1CCD37C4005B1A6D /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F6BFB1CCD37C4005B1A6D /* InterfaceController.swift */; };
 		5D7F6BFE1CCD37C4005B1A6D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F6BFD1CCD37C4005B1A6D /* ExtensionDelegate.swift */; };
-		5D7F6C001CCD37C4005B1A6D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F6BFF1CCD37C4005B1A6D /* NotificationController.swift */; };
-		5D7F6C021CCD37C4005B1A6D /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F6C011CCD37C4005B1A6D /* GlanceController.swift */; };
 		5D7F6C041CCD37C4005B1A6D /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F6C031CCD37C4005B1A6D /* ComplicationController.swift */; };
 		5D7F6C061CCD37C4005B1A6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D7F6C051CCD37C4005B1A6D /* Assets.xcassets */; };
 		5DA486AB1CD01AB400DA4D67 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA486AA1CD01AB400DA4D67 /* Location.swift */; };
@@ -115,8 +113,6 @@
 		5D7F6BFA1CCD37C4005B1A6D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		5D7F6BFB1CCD37C4005B1A6D /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		5D7F6BFD1CCD37C4005B1A6D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		5D7F6BFF1CCD37C4005B1A6D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		5D7F6C011CCD37C4005B1A6D /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		5D7F6C031CCD37C4005B1A6D /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		5D7F6C051CCD37C4005B1A6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D7F6C071CCD37C4005B1A6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -240,8 +236,6 @@
 			children = (
 				5D7F6BFB1CCD37C4005B1A6D /* InterfaceController.swift */,
 				5D7F6BFD1CCD37C4005B1A6D /* ExtensionDelegate.swift */,
-				5D7F6BFF1CCD37C4005B1A6D /* NotificationController.swift */,
-				5D7F6C011CCD37C4005B1A6D /* GlanceController.swift */,
 				5D7F6C031CCD37C4005B1A6D /* ComplicationController.swift */,
 				5D7F6C051CCD37C4005B1A6D /* Assets.xcassets */,
 				5D7F6C071CCD37C4005B1A6D /* Info.plist */,
@@ -487,11 +481,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D7F6C001CCD37C4005B1A6D /* NotificationController.swift in Sources */,
 				5D7F6BFE1CCD37C4005B1A6D /* ExtensionDelegate.swift in Sources */,
 				5D7F6C041CCD37C4005B1A6D /* ComplicationController.swift in Sources */,
 				5D7F6BFC1CCD37C4005B1A6D /* InterfaceController.swift in Sources */,
-				5D7F6C021CCD37C4005B1A6D /* GlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
