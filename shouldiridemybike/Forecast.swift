@@ -24,11 +24,15 @@ struct Forecast {
         return dataPoints;
     }
     
-    init (json: JSON) throws {
-        currently = try (json["currently"] as? JSON).flatMap(DataPoint.init).unwrap()
-        minutely = try (json["minutely"] as? JSON).flatMap(DataBlock.init)
-        hourly = try (json["hourly"] as? JSON).flatMap(DataBlock.init)
-        daily = try (json["daily"] as? JSON).flatMap(DataBlock.init)
+    init?(json: JSON) {
+        guard let currently = (json["currently"] as? JSON).flatMap(DataPoint.init) else {
+            return nil
+        }
+        self.currently = currently
+        
+        minutely = (json["minutely"] as? JSON).flatMap(DataBlock.init)
+        hourly = (json["hourly"] as? JSON).flatMap(DataBlock.init)
+        daily = (json["daily"] as? JSON).flatMap(DataBlock.init)
     }
 }
 
@@ -48,45 +52,42 @@ enum Icon: String {
 struct DataPoint {
     let time: NSDate
     let icon: Icon?
-    let summary: String
-    let temperature: Double
-    let apparentTemperature: Double
-    let precipProbability: Double
-    let precipIntensity: Double
-    let windSpeed: Double
+    let summary: String?
+    let temperature: Double?
+    let apparentTemperature: Double?
+    let precipProbability: Double?
+    let precipIntensity: Double?
+    let windSpeed: Double?
     
-    init(json: JSON) throws {
-        time = try (json["time"] as? Double).flatMap(NSDate.init(timeIntervalSince1970:)).unwrap()
+    init?(json: JSON) {
+        guard let time = (json["time"] as? Double).flatMap(NSDate.init(timeIntervalSince1970:)) else {
+            return nil
+        }
+        self.time = time
+        
         icon = (json["icon"] as? String).flatMap(Icon.init)
-        summary = try (json["summary"] as? String).unwrap()
-        temperature = try (json["temperature"] as? Double).unwrap()
-        apparentTemperature = try (json["apparentTemperature"] as? Double).unwrap()
-        precipProbability = try (json["precipProbability"] as? Double).unwrap()
-        precipIntensity = try (json["precipIntensity"] as? Double).unwrap()
-        windSpeed = try (json["windSpeed"] as? Double).unwrap()
+        summary = json["summary"] as? String
+        temperature = json["temperature"] as? Double
+        apparentTemperature = json["apparentTemperature"] as? Double
+        precipProbability = json["precipProbability"] as? Double
+        precipIntensity = json["precipIntensity"] as? Double
+        windSpeed = json["windSpeed"] as? Double
     }
+ 
 }
 
 struct DataBlock {
-    let icon: Icon?
-    let summary: String
     let dataPoints: [DataPoint]
+    let icon: Icon?
+    let summary: String?
     
-    init(json: JSON) throws {
+    init?(json: JSON) {
+        guard let dataPoints = (json["data"] as? [JSON])?.flatMap(DataPoint.init) else {
+            return nil
+        }
+        self.dataPoints = dataPoints
+        
         icon = (json["icon"] as? String).flatMap(Icon.init)
-        summary = try (json["summary"] as? String).unwrap()
-        dataPoints = try (try (json["data"] as? [JSON])?.flatMap(DataPoint.init)).unwrap()
-    }
-}
-
-
-private extension Optional {
-    func unwrap() throws -> Wrapped {
-        if let unwrapped = self {
-            return unwrapped
-        }
-        else {
-            throw ForecastError.DecodingFailed
-        }
+        summary = json["summary"] as? String
     }
 }

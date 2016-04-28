@@ -10,8 +10,8 @@ import Foundation
 
 
 enum ForecastError: ErrorType {
-    case RequestError
-    case DecodingFailed
+    case InvalidResponse
+    case InvalidJSON
 }
 
 class ForecastManager {
@@ -34,16 +34,15 @@ class ForecastManager {
                 
                 guard let jsonData = data,
                     let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200 else {
-                        throw ForecastError.RequestError
+                        throw ForecastError.InvalidResponse
                 }
                 
-                let jsonObject = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
+                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
                 
-                guard let json = jsonObject as? JSON else {
-                    throw ForecastError.DecodingFailed
+                guard let forecast = (json as? JSON).flatMap(Forecast.init) else {
+                    throw ForecastError.InvalidJSON
                 }
                 
-                let forecast = try Forecast(json: json)
                 completionHandler(forecast, nil)
             }
             catch let error {
