@@ -30,6 +30,8 @@ enum State {
             return "̇I'll wait for you."
         case .Authorized:
             return "Trying to find you…"
+        case .Unauthorized:
+            return "Please"
         case .LocationUpdated:
             return "Checking…"
         case .DecisionUpdated(let decision?) where decision.result == .Yes:
@@ -47,6 +49,8 @@ enum State {
         switch self {
         case .Ready:
             return "I need to know where you are in order to figure out the current weather conditions at your location."
+        case .Unauthorized:
+            return "Please enable location services in the iOS settings. Otherwise, I can't help you :(."
         case .DecisionUpdated(let decision?):
             return decision.reason
         case .DecisionUpdated(.None), .Error:
