@@ -24,7 +24,8 @@ class ForecastManager {
     }
     
     func fetch(location: Location, completionHandler: (Forecast!, ErrorType?) -> Void) {
-        let url = NSURL(string: "https://api.forecast.io/forecast/\(apiKey)/\(location.latitude),\(location.longitude)?units=si&exclude=daily,alerts,flags")!
+        let language = NSBundle.mainBundle().preferredLocalizations.first!
+        let url = NSURL(string: "https://api.forecast.io/forecast/\(apiKey)/\(location.latitude),\(location.longitude)?units=si&exclude=minutely,daily,alerts,flags&lang=\(language)")!
         let task = session.dataTaskWithURL(url) { (data, response, error) in
             do {
                 if let error = error {
