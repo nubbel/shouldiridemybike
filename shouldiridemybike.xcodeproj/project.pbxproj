@@ -32,6 +32,7 @@
 		5DF2FE401CD228FB00247F6C /* Decision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE3F1CD228FB00247F6C /* Decision.swift */; };
 		5DF2FE431CD2296100247F6C /* DecisionMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE421CD2296100247F6C /* DecisionMaker.swift */; };
 		5DF2FE451CD2658D00247F6C /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE441CD2658D00247F6C /* State.swift */; };
+		5DF2FE471CD269D200247F6C /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE461CD269D200247F6C /* util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		5DF2FE3F1CD228FB00247F6C /* Decision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decision.swift; sourceTree = "<group>"; };
 		5DF2FE421CD2296100247F6C /* DecisionMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecisionMaker.swift; sourceTree = "<group>"; };
 		5DF2FE441CD2658D00247F6C /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		5DF2FE461CD269D200247F6C /* util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				5DF2FE3F1CD228FB00247F6C /* Decision.swift */,
 				5DF2FE421CD2296100247F6C /* DecisionMaker.swift */,
 				5DA486AE1CD01B1200DA4D67 /* JSON.swift */,
+				5DF2FE461CD269D200247F6C /* util.swift */,
 				5D2C2B971CCD847500E22C08 /* secrets.swift */,
 				5D7F6BC41CCD37C3005B1A6D /* Main.storyboard */,
 				5D7F6BC71CCD37C3005B1A6D /* Assets.xcassets */,
@@ -455,6 +458,7 @@
 				5DA486AF1CD01B1200DA4D67 /* JSON.swift in Sources */,
 				5DF2FE451CD2658D00247F6C /* State.swift in Sources */,
 				5D2C2B981CCD847500E22C08 /* secrets.swift in Sources */,
+				5DF2FE471CD269D200247F6C /* util.swift in Sources */,
 				5DA486AB1CD01AB400DA4D67 /* Location.swift in Sources */,
 				5D7F6BC31CCD37C3005B1A6D /* ViewController.swift in Sources */,
 				5DA486AD1CD01ACB00DA4D67 /* Forecast.swift in Sources */,

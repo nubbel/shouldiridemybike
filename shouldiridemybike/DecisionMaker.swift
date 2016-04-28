@@ -8,13 +8,11 @@
 
 import Foundation
 
-private let numberFormatter: NSNumberFormatter = {
-    let formatter = NSNumberFormatter()
+
+let numberFormatter = configure(NSNumberFormatter()) { formatter in
     formatter.numberStyle = .DecimalStyle
     formatter.maximumFractionDigits = 2
-    
-    return formatter
-}();
+}
 
 struct DecisionMaker {
     let acceptableTemperatureRange: HalfOpenInterval<Double>
