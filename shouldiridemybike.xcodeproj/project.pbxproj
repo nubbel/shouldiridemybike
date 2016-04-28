@@ -31,6 +31,7 @@
 		5DA486AF1CD01B1200DA4D67 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA486AE1CD01B1200DA4D67 /* JSON.swift */; };
 		5DF2FE401CD228FB00247F6C /* Decision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE3F1CD228FB00247F6C /* Decision.swift */; };
 		5DF2FE431CD2296100247F6C /* DecisionMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE421CD2296100247F6C /* DecisionMaker.swift */; };
+		5DF2FE451CD2658D00247F6C /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2FE441CD2658D00247F6C /* State.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		5DA486AE1CD01B1200DA4D67 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		5DF2FE3F1CD228FB00247F6C /* Decision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decision.swift; sourceTree = "<group>"; };
 		5DF2FE421CD2296100247F6C /* DecisionMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecisionMaker.swift; sourceTree = "<group>"; };
+		5DF2FE441CD2658D00247F6C /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				5D7F6BC01CCD37C3005B1A6D /* AppDelegate.swift */,
 				5D7F6BC21CCD37C3005B1A6D /* ViewController.swift */,
 				5D49B6041CCD480800F1E059 /* ForecastManager.swift */,
+				5DF2FE441CD2658D00247F6C /* State.swift */,
 				5DA486AA1CD01AB400DA4D67 /* Location.swift */,
 				5DA486AC1CD01ACB00DA4D67 /* Forecast.swift */,
 				5DF2FE3F1CD228FB00247F6C /* Decision.swift */,
@@ -450,6 +453,7 @@
 				5D49B6051CCD480800F1E059 /* ForecastManager.swift in Sources */,
 				5DF2FE431CD2296100247F6C /* DecisionMaker.swift in Sources */,
 				5DA486AF1CD01B1200DA4D67 /* JSON.swift in Sources */,
+				5DF2FE451CD2658D00247F6C /* State.swift in Sources */,
 				5D2C2B981CCD847500E22C08 /* secrets.swift in Sources */,
 				5DA486AB1CD01AB400DA4D67 /* Location.swift in Sources */,
 				5D7F6BC31CCD37C3005B1A6D /* ViewController.swift in Sources */,
