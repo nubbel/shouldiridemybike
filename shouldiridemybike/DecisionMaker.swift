@@ -11,7 +11,7 @@ import Foundation
 
 let numberFormatter = configure(NSNumberFormatter()) { formatter in
     formatter.numberStyle = .DecimalStyle
-    formatter.maximumFractionDigits = 2
+    formatter.maximumFractionDigits = 1
 }
 
 struct DecisionMaker {
