@@ -8,7 +8,21 @@
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="shouldiridemybike_WatchKit_App" customModuleProvider="target"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="shouldiridemybike_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <group width="1" alignment="center" verticalAlignment="center" layout="vertical" id="njl-Fy-NYS">
+                            <items>
+                                <label height="0.40000000000000002" alignment="center" text="Sorry" textAlignment="left" id="n6q-W8-RWH">
+                                    <color key="textColor" red="0.25882352939999997" green="0.61176470589999998" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="40"/>
+                                </label>
+                                <label alignment="center" text="Please open the Should I my bike? app on your iPhone." textAlignment="center" numberOfLines="0" id="uYo-Vs-eeT">
+                                    <color key="textColor" red="0.25882352939999997" green="0.61176470589999998" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                            </items>
+                        </group>
+                    </items>
+                </controller>
             </objects>
             <point key="canvasLocation" x="235" y="347"/>
         </scene>
