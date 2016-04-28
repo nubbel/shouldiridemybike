@@ -23,11 +23,11 @@
                                 <rect key="frame" x="20" y="64" width="560" height="493"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;statusLabel&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Gq-mG-0uF">
-                                        <rect key="frame" x="111" y="0.0" width="339" height="164"/>
+                                        <rect key="frame" x="141" y="0.0" width="278" height="164"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="127" id="5q8-IY-6fx"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="54"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <color key="textColor" red="0.87058823529999996" green="0.87058823529999996" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
