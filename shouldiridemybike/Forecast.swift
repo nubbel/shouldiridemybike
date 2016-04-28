@@ -20,6 +20,10 @@ struct Forecast {
         dataPoints.appendContentsOf(minutely?.dataPoints ?? [])
         dataPoints.appendContentsOf(hourly?.dataPoints ?? [])
         dataPoints.appendContentsOf(daily?.dataPoints ?? [])
+
+        dataPoints.sortInPlace { (dataPoint1, dataPoint2) -> Bool in
+            dataPoint1.time.compare(dataPoint2.time) == .OrderedAscending
+        }
         
         return dataPoints;
     }

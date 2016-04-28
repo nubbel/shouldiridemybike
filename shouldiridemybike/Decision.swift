@@ -21,13 +21,11 @@ struct Decision {
     }
     
     func merging(decision: Decision) -> Decision {
-        let mergedReasons = reasons + decision.reasons
-        
         switch result {
         case .Yes:
-            return Decision(result: decision.result, reasons: mergedReasons)
+            return Decision(result: decision.result, reasons: decision.reasons + reasons)
         case .No:
-            return Decision(result: result, reasons: mergedReasons)
+            return Decision(result: result, reasons: reasons + decision.reasons)
         }
     }
 }

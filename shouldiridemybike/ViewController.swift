@@ -8,14 +8,24 @@
 
 import UIKit
 import CoreLocation
+import WatchConnectivity
 
 
 class ViewController: UIViewController {
 
-    var session: NSURLSession!
+    var urlSession: NSURLSession!
     var locationManager: CLLocationManager!
     var forecastManager: ForecastManager!
     var decisionMaker: DecisionMaker!
+    var watchSession: WCSession?
+    
+    var validWatchSession: WCSession? {
+        if let session = watchSession where watchSession?.activationState == .Activated && session.paired && session.watchAppInstalled && session.complicationEnabled {
+            return session
+        }
+        
+        return nil
+    }
     
     private var state = State.Initial {
         didSet(oldState) {
@@ -48,13 +58,13 @@ class ViewController: UIViewController {
     }
 
     func setup() {
-        session = NSURLSession.sharedSession()
+        urlSession = NSURLSession.sharedSession()
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         
-        forecastManager = ForecastManager(apiKey: FORECAST_IO_API_KEY, session: session)
+        forecastManager = ForecastManager(apiKey: FORECAST_IO_API_KEY, session: urlSession)
         
         decisionMaker = DecisionMaker(
             acceptableTemperatureRange: 5..<30,
@@ -63,6 +73,13 @@ class ViewController: UIViewController {
             maxAcceptablePrecipitationUnconditionalIntensity: 0.1,
             maxAcceptableWindSpeed: 15.5
         )
+        
+        if WCSession.isSupported() {
+            watchSession = configure(WCSession.defaultSession()) { session in
+                session.delegate = self
+                session.activateSession()
+            }
+        }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
             self?.state = .Ready
@@ -103,6 +120,8 @@ class ViewController: UIViewController {
                 let decision = self.decisionMaker.makeDecision(forecast.currently)
                 
                 self.state = .DecisionUpdated(decision)
+                
+                self.transferComplicationData(forecast)
             })
 
         default:
@@ -119,6 +138,28 @@ class ViewController: UIViewController {
         default:
             return nil
         }
+    }
+    
+    func transferComplicationData(forecast: Forecast) {
+        guard let session = validWatchSession else {
+            return
+        }
+        
+        let data: [[String: AnyObject]] = forecast.timeline.flatMap { dataPoint in
+            guard let decision = decisionMaker.makeDecision(dataPoint) else {
+                return nil
+            }
+            
+            return [
+                "time": dataPoint.time,
+                "decision": "\(decision.result)",
+                "reasons": decision.reasons
+            ]
+        }
+        
+        let userInfo = ["time": NSDate(), "data": data]
+        
+        session.transferCurrentComplicationUserInfo(userInfo)
     }
 }
 
@@ -161,4 +202,9 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         state = .Error
     }
+}
+
+// MARK: - WCSessionDelegate
+extension ViewController: WCSessionDelegate {
+    
 }

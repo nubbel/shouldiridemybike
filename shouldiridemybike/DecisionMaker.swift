@@ -26,8 +26,8 @@ struct DecisionMaker {
         let precipitationDecision = makePrecipitationDecision(dataPoint)
         let windSpeedDecision = makeWindSpeedDecision(dataPoint)
         
-        let decisions = [temperatureDecision, precipitationDecision, windSpeedDecision].flatMap { $0 }
-        
+        let decisions = [temperatureDecision, precipitationDecision, windSpeedDecision].reverse().flatMap { $0 }
+
         return decisions.reduce(nil) { (finalDecision, decision) in
             return finalDecision?.merging(decision) ?? decision
         }
