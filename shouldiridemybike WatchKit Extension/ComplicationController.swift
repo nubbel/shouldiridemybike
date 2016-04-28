@@ -106,14 +106,14 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         
         let textProvider = CLKSimpleTextProvider(text: "Should I ride my bike?", shortText: "Bike?")
         
-        
         switch complication.family {
         case .ModularSmall:
-            let template = CLKComplicationTemplateModularSmallSimpleText()
-            template.textProvider = textProvider
+            let template = CLKComplicationTemplateModularSmallSimpleImage()
+            template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_modular_small")!)
             handler(template)
         case .ModularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
+            template.headerImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_modular_large")!)
             template.headerTextProvider = textProvider
             template.body1TextProvider = textProvider
             handler(template)
@@ -166,11 +166,14 @@ private extension ComplicationController {
         
         switch complication.family {
         case .ModularSmall:
-            let template = CLKComplicationTemplateModularSmallSimpleText()
-            template.textProvider = headerTextProvider
+            let template = CLKComplicationTemplateModularSmallStackImage()
+            template.line1ImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_modular_small_stacked")!)
+            template.line2TextProvider = headerTextProvider
+            
             return template
         case .ModularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
+            template.headerImageProvider = CLKImageProvider(onePieceImage: UIImage(named: "bike_modular_large")!)
             template.headerTextProvider = headerTextProvider
             template.body1TextProvider = bodyTextProvider
             return template

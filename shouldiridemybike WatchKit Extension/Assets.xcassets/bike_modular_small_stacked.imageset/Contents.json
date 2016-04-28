@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "watch",
-      "filename" : "bike_modular_small-1.png",
+      "filename" : "bike_modular_small_stacked-1.png",
       "screen-width" : "<=145",
       "scale" : "2x"
     },
     {
       "idiom" : "watch",
-      "filename" : "bike_modular_small.png",
+      "filename" : "bike_modular_small_stacked.png",
       "screen-width" : ">145",
       "scale" : "2x"
     }
