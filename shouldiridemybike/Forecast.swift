@@ -49,6 +49,13 @@ enum Icon: String {
     case PartlyCloudyNight = "partly-cloudy-night"
 }
 
+enum Precipitation: String {
+    case Rain = "rain"
+    case Snow = "snow"
+    case Sleet = "sleet"
+    case Hail = "hail"
+}
+
 struct DataPoint {
     let time: NSDate
     let icon: Icon?
@@ -57,6 +64,7 @@ struct DataPoint {
     let apparentTemperature: Double?
     let precipProbability: Double?
     let precipIntensity: Double?
+    let precipType: Precipitation?
     let windSpeed: Double?
     
     init?(json: JSON) {
@@ -71,6 +79,7 @@ struct DataPoint {
         apparentTemperature = json["apparentTemperature"] as? Double
         precipProbability = json["precipProbability"] as? Double
         precipIntensity = json["precipIntensity"] as? Double
+        precipType = (json["precipType"] as? String).flatMap(Precipitation.init)
         windSpeed = json["windSpeed"] as? Double
     }
  

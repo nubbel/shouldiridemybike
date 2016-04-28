@@ -22,7 +22,7 @@ enum State {
     case Authorized
     case Unauthorized
     case LocationUpdated(Location)
-    case DecisionUpdated(Bool)
+    case DecisionUpdated(Decision?)
     case Error
     
     
@@ -38,9 +38,9 @@ enum State {
             return "Trying to find you…"
         case .LocationUpdated:
             return "Checking…"
-        case .DecisionUpdated(true):
+        case .DecisionUpdated(let decision?) where decision.result == .Yes:
             return "Yes"
-        case .DecisionUpdated(false):
+        case .DecisionUpdated(let decision?) where decision.result == .No:
             return "No"
         case Error:
             return "Sorry"
@@ -53,11 +53,9 @@ enum State {
         switch self {
         case .Ready:
             return "I need to know where you are in order to figure out the current weather conditions at your location."
-        case .DecisionUpdated(true):
-            return "Weather is nice."
-        case .DecisionUpdated(false):
-            return "Weather sucks!"
-        case .Error:
+        case .DecisionUpdated(let decision?):
+            return decision.reason
+        case .DecisionUpdated(.None), .Error:
             return "I don't know, just look out of your window."
         default:
             return ""
@@ -68,6 +66,8 @@ enum State {
         switch self {
         case .Ready:
             return "Here I am!"
+        case .DecisionUpdated:
+            return "And now?"
         case .Error:
             return "Try again!"
         default:
@@ -79,7 +79,7 @@ enum State {
         switch self {
         case .Ready:
             return .RequestPermissionFromUser
-        case .Error:
+        case .DecisionUpdated, .Error:
             return .Retry
         default:
             return nil
@@ -92,6 +92,7 @@ class ViewController: UIViewController {
     var session: NSURLSession!
     var locationManager: CLLocationManager!
     var forecastManager: ForecastManager!
+    var decisionMaker: DecisionMaker!
     
     private var state = State.Initial {
         didSet(oldState) {
@@ -132,6 +133,14 @@ class ViewController: UIViewController {
         
         forecastManager = ForecastManager(apiKey: FORECAST_IO_API_KEY, session: session)
         
+        decisionMaker = DecisionMaker(
+            acceptableTemperatureRange: 5..<30,
+            maxAcceptablePrecipitationIntensity: 0.01,
+            maxAcceptablePrecipitationProbability: 0.1,
+            maxAcceptablePrecipitationUnconditionalIntensity: 0.1,
+            maxAcceptableWindSpeed: 15.5
+        )
+        
         NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
             self?.state = .Ready
         }
@@ -141,14 +150,8 @@ class ViewController: UIViewController {
     func update() {
         statusLabel.text = state.status
         descriptionLabel.text = state.description
-        
-        if let prompt = state.prompt {
-            actionButton.setTitle(prompt, forState: .Normal)
-            actionButton.hidden = false
-        }
-        else {
-            actionButton.hidden = true
-        }
+        actionButton.setTitle(state.prompt, forState: .Normal)
+        actionButton.enabled = state.prompt != nil
     }
     
     func handleTransitionFromState(oldState: State) {
@@ -174,7 +177,9 @@ class ViewController: UIViewController {
                     return
                 }
                 
-                self.state = .DecisionUpdated(forecast.currently.temperature > 10)
+                let decision = self.decisionMaker.makeDecision(forecast.currently)
+                
+                self.state = .DecisionUpdated(decision)
             })
 
         default:
