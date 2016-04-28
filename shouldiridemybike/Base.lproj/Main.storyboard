@@ -20,10 +20,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Nvf-jE-SXL">
-                                <rect key="frame" x="20" y="64" width="560" height="536"/>
+                                <rect key="frame" x="20" y="64" width="560" height="493"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;statusLabel&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Gq-mG-0uF">
-                                        <rect key="frame" x="154" y="0.0" width="253" height="179"/>
+                                        <rect key="frame" x="154" y="0.0" width="253" height="164"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="127" id="5q8-IY-6fx"/>
                                         </constraints>
@@ -37,7 +37,7 @@
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0jy-ND-hBZ">
-                                        <rect key="frame" x="156" y="179" width="248" height="178"/>
+                                        <rect key="frame" x="156" y="164" width="248" height="165"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                         <state key="normal" title="&lt;actionButton&gt;"/>
                                         <connections>
@@ -45,10 +45,9 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;descriptionLabel&gt;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTQ-Fj-ksw">
-                                        <rect key="frame" x="206" y="357" width="149" height="179"/>
+                                        <rect key="frame" x="206" y="329" width="149" height="164"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="3Bi-hE-CZo"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="hAI-MV-wSW"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.25882352941176473" green="0.61176470588235299" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -61,15 +60,33 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6JU-V5-jW3">
+                                <rect key="frame" x="241" y="565" width="119" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Powered by Forecast">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openForecastWebsite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vph-I9-mNF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.12156862745098039" green="0.12549019607843137" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.78039215689999997" green="0.4823529412" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="6JU-V5-jW3" firstAttribute="top" secondItem="Nvf-jE-SXL" secondAttribute="bottom" constant="8" symbolic="YES" id="Jk1-Ul-xPo"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nvf-jE-SXL" secondAttribute="trailing" id="VXv-Hn-Bn8"/>
                             <constraint firstItem="Nvf-jE-SXL" firstAttribute="topMargin" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="a9s-P7-Mal"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6JU-V5-jW3" secondAttribute="bottom" constant="8" symbolic="YES" id="aOq-Pn-NFT"/>
                             <constraint firstItem="Nvf-jE-SXL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="h0t-es-MPa"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Nvf-jE-SXL" secondAttribute="bottom" id="igN-yS-eSg"/>
+                            <constraint firstItem="6JU-V5-jW3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sdt-lf-zf2"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="igN-yS-eSg"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Should I ride my bike?" id="cdT-oj-yze"/>
                     <connections>

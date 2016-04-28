@@ -212,6 +212,10 @@ extension ViewController {
             }
         }
     }
+    @IBAction func openForecastWebsite(sender: AnyObject) {
+        let url = NSURL(string: "https://forecast.io")!
+        UIApplication.sharedApplication().openURL(url)
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
