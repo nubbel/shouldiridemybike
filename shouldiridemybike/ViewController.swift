@@ -29,9 +29,11 @@ class ViewController: UIViewController {
     
     private var state = State.Initial {
         didSet(oldState) {
-            handleTransitionFromState(oldState)
-            
-            dispatch_async(dispatch_get_main_queue(), update)
+            if (state != oldState) {
+                handleTransitionFromState(oldState)
+                
+                dispatch_async(dispatch_get_main_queue(), update)
+            }
         }
     }
     

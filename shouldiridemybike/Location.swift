@@ -10,3 +10,9 @@ struct Location {
     let latitude: Double
     let longitude: Double
 }
+
+extension Location: Equatable {}
+
+func ==(lhs: Location, rhs: Location) -> Bool {
+    return lhs.latitude == rhs.latitude && lhs.longitude == lhs.longitude
+}

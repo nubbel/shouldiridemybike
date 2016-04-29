@@ -38,7 +38,7 @@ enum State {
             return "Yes"
         case .DecisionUpdated(let decision?) where decision.result == .No:
             return "No"
-        case Error:
+        case .DecisionUpdated(.None), Error:
             return "Sorry"
         default:
             return ""
@@ -82,6 +82,33 @@ enum State {
         default:
             return nil
         }
+    }
+}
+
+extension State: Equatable {}
+
+func ==(lhs: State, rhs: State) -> Bool {
+    switch (lhs, rhs) {
+    case (.Initial, .Initial):
+        return true
+    case (.Ready, .Ready):
+        return true
+    case (.WaitingForAuthorization, .WaitingForAuthorization):
+        return true
+    case (.Authorized, .Authorized):
+        return true
+    case (.Unauthorized, .Unauthorized):
+        return true
+    case (.LocationUpdated(let loc1), .LocationUpdated(let loc2)):
+        return loc1 == loc2
+    case (.DecisionUpdated(.None), .DecisionUpdated(.None)):
+        return true
+    case (.DecisionUpdated(let dec1?), .DecisionUpdated(let dec2?)):
+        return dec1 == dec2
+    case (.Error, .Error):
+        return true
+    default:
+        return false
     }
 }
 

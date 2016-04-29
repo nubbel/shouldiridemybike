@@ -29,3 +29,9 @@ struct Decision {
         }
     }
 }
+
+extension Decision: Equatable {}
+
+func ==(lhs: Decision, rhs: Decision) -> Bool {
+    return lhs.result == rhs.result && lhs.reasons == rhs.reasons
+}
