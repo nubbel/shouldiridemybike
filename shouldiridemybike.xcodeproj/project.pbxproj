@@ -187,12 +187,8 @@
 				5D7F6BC01CCD37C3005B1A6D /* AppDelegate.swift */,
 				5D7F6BC21CCD37C3005B1A6D /* ViewController.swift */,
 				5D49B6041CCD480800F1E059 /* ForecastManager.swift */,
-				5DF2FE441CD2658D00247F6C /* State.swift */,
-				5DA486AA1CD01AB400DA4D67 /* Location.swift */,
-				5DA486AC1CD01ACB00DA4D67 /* Forecast.swift */,
-				5DF2FE3F1CD228FB00247F6C /* Decision.swift */,
 				5DF2FE421CD2296100247F6C /* DecisionMaker.swift */,
-				5DA486AE1CD01B1200DA4D67 /* JSON.swift */,
+				5D83799F1CD3528200B1F156 /* Types */,
 				5DF2FE461CD269D200247F6C /* util.swift */,
 				5D2C2B971CCD847500E22C08 /* secrets.swift */,
 				5D7F6BC41CCD37C3005B1A6D /* Main.storyboard */,
@@ -250,6 +246,18 @@
 				5D7F6BFA1CCD37C4005B1A6D /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5D83799F1CD3528200B1F156 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				5DA486AE1CD01B1200DA4D67 /* JSON.swift */,
+				5DF2FE441CD2658D00247F6C /* State.swift */,
+				5DA486AA1CD01AB400DA4D67 /* Location.swift */,
+				5DA486AC1CD01ACB00DA4D67 /* Forecast.swift */,
+				5DF2FE3F1CD228FB00247F6C /* Decision.swift */,
+			);
+			name = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
