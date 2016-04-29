@@ -35,7 +35,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Timeline Configuration
     
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
-        handler([.Forward])
+        handler([.Forward, .Backward])
     }
     
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
@@ -53,7 +53,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
-        guard let current = timelineData.first else {
+        guard let current = findCurrentDecisionDataPoint() else {
             handler(nil)
             return
         }
@@ -164,6 +164,26 @@ extension ComplicationController: WCSessionDelegate {
 }
 
 private extension ComplicationController {
+    func findCurrentDecisionDataPoint() -> DecisionDataPoint? {
+        let now = NSDate()
+        var nearestDistance: NSTimeInterval?
+        var nearestDataPoint: DecisionDataPoint?
+        
+        // timeline data is sorted by time
+        for dataPoint in timelineData {
+            let distance = abs(dataPoint.time.timeIntervalSinceDate(now))
+            if (nearestDistance == nil || distance < nearestDistance!) {
+                nearestDistance = distance
+                nearestDataPoint = dataPoint
+            }
+            else {
+                break
+            }
+        }
+        
+        return nearestDataPoint
+    }
+    
     func buildTimelineEntryForComplication(complication: CLKComplication, decisionDataPoint: DecisionDataPoint) -> CLKComplicationTimelineEntry? {
         guard let template = buildTemplateForComplication(complication, decisionDataPoint: decisionDataPoint) else {
             return nil
